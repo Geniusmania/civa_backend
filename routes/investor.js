@@ -3,13 +3,13 @@ const investorRoute = express.Router();
 const con = require("../db");
 
 
-investorRoute.post("/investors", async (req, res) => {
+investorRoute.post("/", async (req, res) => {
   const {
     full_name,
     email,
     organization,
     investment_interests, 
-    engagement_preference, 
+    engagement_details, 
   } = req.body;
 
   // Validation
@@ -45,14 +45,14 @@ investorRoute.post("/investors", async (req, res) => {
         email, 
         organization, 
         investment_interests, 
-        engagement_preference
+        engagement_details
       ) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [
         full_name,
         email,
         organization,
         interestsArray,
-        engagement_preference || null,
+        engagement_details || null,
       ]
     );
 
@@ -78,7 +78,7 @@ investorRoute.post("/investors", async (req, res) => {
 });
 
 // GET all investors
-investorRoute.get("/investors", async (req, res) => {
+investorRoute.get("/", async (req, res) => {
   try {
     const {
       interest, 
@@ -144,7 +144,7 @@ investorRoute.get("/investors", async (req, res) => {
   }
 });
 // DELETE an investor by ID
-investorRoute.delete("/investors/:id", async (req, res) => {
+investorRoute.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
